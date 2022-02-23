@@ -18,7 +18,9 @@ namespace std {
     %template(VectorOfStructVector) std::vector<std::vector<double> >;
     %template(FloatVector) std::vector<float>;
     %template(Pair) std::pair<float, std::string>;
+    %template(PairIntInt) std::pair<int, int>;
     %template(PairFloatStringVector)  std::vector<std::pair<float, std::string> >;
+    %template(PairIntIntVector)  std::vector<std::pair<int, int>>;
     %template(PairDoubleStringVector) std::vector<std::pair<double, std::string> >;
     %template(PairDoubleStringVector2) std::vector<std::vector<std::pair<double, std::string> > >;
     %template(DoubleVector3) std::vector<std::vector<std::vector<double> > >;

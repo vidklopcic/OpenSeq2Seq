@@ -47,6 +47,8 @@ public:
   void get_word_timestamps(
       std::vector<std::tuple<std::string, uint32_t, uint32_t>>& words);
 
+  std::vector<std::pair<int, int>> get_word_timestamps_python();
+
   void add_start_offset(int offset) { time_offset += offset; }
   void set_start_offset(int offset) { time_offset = offset; }
 
