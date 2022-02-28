@@ -1,3 +1,31 @@
+# Get word timestamps
+```Python
+def softmax(x):
+    e = np.exp(x - np.max(x))
+    return e / e.sum(axis=-1).reshape([x.shape[0], 1])
+
+model = EncDecCTCModel.restore_from(restore_path=config.NEMO_MODEL)
+vocabulary = asr_model.decoder.vocabulary + ['']    # add blank token
+scorer = Scorer(LM_MODEL_ALPHA, LM_MODEL_BETA, model_path=LM_MODEL_PATH, vocabulary=vocabulary)
+decoder = BeamDecoder(vocab, LM_MODEL_BW, ext_scorer=scorer)
+audio_files = ['test.wav', 'test1.wav']
+probs_out = model.transcribe(audio_files, logprobs=True, batch_size=1)
+
+for i, probs in enumerate(probs_out):
+    probs = softmax(probs)
+    decoder.reset()
+    predictions = decoder.decode(probs)
+    
+    words = predictions[0][1].split()
+    timesteps = decoder.get_word_timestamps_python()
+    words = [
+        [words[i], (ts[0] * NEMO_MODEL_TIMESTEP_MS, ts[1] * NEMO_MODEL_TIMESTEP_MS)]
+        for i, ts in enumerate(timesteps)
+        if words[i] != 'ee' and words[i] != 'eee' and words[i] != 'e'
+    ]
+```
+
+
 [![License](https://img.shields.io/badge/License-Apache%202.0-brightgreen.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Documentation](https://img.shields.io/badge/documentation-github.io-blue.svg)](https://nvidia.github.io/OpenSeq2Seq/html/index.html)
 <div align="center">
